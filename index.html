@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Noto Sans CJK SC";
+        src: url("assets/fonts/NotoSansCJKsc-Subset.otf") format("opentype");
+        font-weight: 400 600;
+        font-style: normal;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0b1a33;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        background: #0b1a33;
+        font-family: "Noto Sans CJK SC", sans-serif;
+        color: #e8eef7;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .scene svg {
+        position: absolute;
+        left: 50%;
+        top: 46%;
+        transform: translate(-50%, -50%);
+        width: 1400px;
+        height: 780px;
+      }
+      .caption-wrap.clip {
+        position: absolute;
+        inset: auto;
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: 64px;
+        width: 1920px;
+        height: 170px;
+        z-index: 40;
+        pointer-events: none;
+      }
+      .caption {
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 1400px;
+        padding: 18px 36px;
+        background: rgba(8, 18, 36, 0.78);
+        border: 1.5px solid rgba(94, 200, 232, 0.35);
+        border-radius: 10px;
+        font-size: 42px;
+        line-height: 1.45;
+        letter-spacing: 0.04em;
+        text-align: center;
+        color: #f2f7ff;
+        opacity: 0;
+        white-space: pre-line;
+      }
+      .hint {
+        position: absolute;
+        left: 48px;
+        bottom: 48px;
+        top: auto;
+        right: auto;
+        font-size: 22px;
+        color: rgba(148, 176, 210, 0.7);
+        letter-spacing: 0.06em;
+        z-index: 30;
+        opacity: 0;
+      }
+      .end-card {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        z-index: 50;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center, #132845 0%, #0b1a33 70%);
+      }
+      .end-card .big {
+        font-size: 72px;
+        font-weight: 600;
+        color: #f2f7ff;
+        letter-spacing: 0.08em;
+      }
+      .end-card .sub {
+        margin-top: 28px;
+        font-size: 32px;
+        color: #5ec8e8;
+        letter-spacing: 0.12em;
+      }
+      .label-cyan { fill: #5ec8e8; font-family: inherit; }
+      .label-warm { fill: #f08a3a; font-family: inherit; }
+      .label-soft { fill: #9bb6d4; font-family: inherit; }
+      .stroke-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="90"
+      data-width="1920"
+      data-height="1080"
+      data-fps="30"
+    >
+      <!-- Scenes -->
+      <div class="clip scene" id="scene1" data-start="0" data-duration="10" data-track-index="0">
+        <svg viewBox="0 0 1400 780" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="g1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffe6c2"/>
+              <stop offset="35%" stop-color="#f08a3a"/>
+              <stop offset="100%" stop-color="#0b1a33" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- foam rings -->
+          <g id="s1-foam" opacity="0">
+            <ellipse cx="700" cy="390" rx="120" ry="90" class="stroke-line" stroke="#5ec8e8" stroke-width="1.5" opacity="0.55"/>
+            <ellipse cx="700" cy="390" rx="220" ry="160" class="stroke-line" stroke="#5ec8e8" stroke-width="1.5" opacity="0.4"/>
+            <ellipse cx="700" cy="390" rx="340" ry="240" class="stroke-line" stroke="#9bb6d4" stroke-width="1.2" opacity="0.3"/>
+            <ellipse cx="700" cy="390" rx="480" ry="320" class="stroke-line" stroke="#9bb6d4" stroke-width="1" opacity="0.22"/>
+            <!-- paper-cut foam patches -->
+            <path d="M420,300 C480,250 560,270 580,330 C600,380 520,420 460,400 C400,380 370,340 420,300Z"
+              class="stroke-line" stroke="#cfe2f5" stroke-width="2" fill="rgba(94,200,232,0.06)"/>
+            <path d="M860,420 C920,380 1000,400 1020,460 C1040,520 960,560 900,540 C840,520 810,460 860,420Z"
+              class="stroke-line" stroke="#cfe2f5" stroke-width="2" fill="rgba(94,200,232,0.06)"/>
+            <path d="M640,200 C700,170 760,200 770,250 C780,300 720,330 670,310 C620,290 600,230 640,200Z"
+              class="stroke-line" stroke="#cfe2f5" stroke-width="2" fill="rgba(240,138,58,0.08)"/>
+          </g>
+          <circle id="s1-core" cx="700" cy="390" r="4" fill="url(#g1)"/>
+          <circle id="s1-ring" cx="700" cy="390" r="18" class="stroke-line" stroke="#f08a3a" stroke-width="2" opacity="0.8"/>
+        </svg>
+      </div>
+
+      <div class="clip scene" id="scene2" data-start="10" data-duration="15" data-track-index="0">
+        <svg viewBox="0 0 1400 780" xmlns="http://www.w3.org/2000/svg">
+          <!-- proton/neutron clusters -->
+          <g id="s2-parts">
+            <g id="s2-p1" transform="translate(380,300)">
+              <circle r="28" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" fill="rgba(240,138,58,0.12)"/>
+              <circle cx="-10" cy="4" r="10" fill="#f08a3a"/>
+              <circle cx="12" cy="-6" r="10" fill="#9bb6d4"/>
+            </g>
+            <g id="s2-p2" transform="translate(560,460)">
+              <circle r="28" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" fill="rgba(240,138,58,0.12)"/>
+              <circle cx="-8" cy="-8" r="10" fill="#f08a3a"/>
+              <circle cx="10" cy="6" r="10" fill="#9bb6d4"/>
+            </g>
+            <g id="s2-p3" transform="translate(720,280)">
+              <circle r="28" class="stroke-line" stroke="#5ec8e8" stroke-width="2.5" fill="rgba(94,200,232,0.1)"/>
+              <circle cx="0" cy="0" r="10" fill="#f08a3a"/>
+            </g>
+            <g id="s2-p4" transform="translate(900,420)">
+              <circle r="28" class="stroke-line" stroke="#5ec8e8" stroke-width="2.5" fill="rgba(94,200,232,0.1)"/>
+              <circle cx="-10" cy="0" r="10" fill="#f08a3a"/>
+              <circle cx="10" cy="0" r="10" fill="#9bb6d4"/>
+            </g>
+          </g>
+          <!-- Nuclei H / He -->
+          <g id="s2-h" opacity="0" transform="translate(480,390)">
+            <circle r="70" class="stroke-line" stroke="#5ec8e8" stroke-width="2.5" fill="rgba(94,200,232,0.08)"/>
+            <circle r="22" fill="#f08a3a"/>
+            <text x="0" y="120" text-anchor="middle" class="label-cyan" font-size="48" font-weight="600">H</text>
+            <text x="0" y="158" text-anchor="middle" class="label-soft" font-size="24">氢</text>
+          </g>
+          <g id="s2-he" opacity="0" transform="translate(920,390)">
+            <circle r="90" class="stroke-line" stroke="#5ec8e8" stroke-width="2.5" fill="rgba(94,200,232,0.08)"/>
+            <circle cx="-18" cy="-10" r="18" fill="#f08a3a"/>
+            <circle cx="18" cy="-10" r="18" fill="#f08a3a"/>
+            <circle cx="-18" cy="18" r="18" fill="#9bb6d4"/>
+            <circle cx="18" cy="18" r="18" fill="#9bb6d4"/>
+            <text x="0" y="140" text-anchor="middle" class="label-cyan" font-size="48" font-weight="600">He</text>
+            <text x="0" y="178" text-anchor="middle" class="label-soft" font-size="24">氦</text>
+          </g>
+          <text id="s2-note" x="700" y="80" text-anchor="middle" class="label-soft" font-size="28" opacity="0">原初核合成 · 示意</text>
+        </svg>
+      </div>
+
+      <div class="clip scene" id="scene3" data-start="25" data-duration="17" data-track-index="0">
+        <svg viewBox="0 0 1400 780" xmlns="http://www.w3.org/2000/svg">
+          <!-- star cross-section -->
+          <g id="s3-star" transform="translate(420,400)">
+            <circle r="240" class="stroke-line" stroke="#9bb6d4" stroke-width="2" fill="rgba(155,182,212,0.06)"/>
+            <circle r="180" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.06)"/>
+            <circle r="120" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" fill="rgba(240,138,58,0.12)"/>
+            <circle r="55" fill="#f08a3a" opacity="0.85"/>
+            <text x="0" y="-260" text-anchor="middle" class="label-soft" font-size="26">恒星剖面 · 示意</text>
+          </g>
+          <!-- fusion chain -->
+          <g id="s3-chain" transform="translate(820,280)">
+            <g id="s3-step1" opacity="0.25">
+              <rect x="0" y="0" width="120" height="72" rx="8" class="stroke-line" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.1)"/>
+              <text x="60" y="46" text-anchor="middle" class="label-warm" font-size="36" font-weight="600">H</text>
+            </g>
+            <path id="s3-a1" d="M130,36 L190,36" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" opacity="0.3"/>
+            <polygon points="190,28 210,36 190,44" fill="#f08a3a" opacity="0.3"/>
+            <g id="s3-step2" opacity="0.25" transform="translate(220,0)">
+              <rect x="0" y="0" width="120" height="72" rx="8" class="stroke-line" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.1)"/>
+              <text x="60" y="46" text-anchor="middle" class="label-warm" font-size="36" font-weight="600">He</text>
+            </g>
+            <path id="s3-a2" d="M350,36 L410,36" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" opacity="0.3"/>
+            <polygon points="410,28 430,36 410,44" fill="#f08a3a" opacity="0.3"/>
+            <g id="s3-step3" opacity="0.25" transform="translate(440,0)">
+              <rect x="0" y="0" width="160" height="72" rx="8" class="stroke-line" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.1)"/>
+              <text x="80" y="46" text-anchor="middle" class="label-warm" font-size="32" font-weight="600">C / O</text>
+            </g>
+            <path id="s3-a3" d="M300,90 L300,150" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" opacity="0.3"/>
+            <polygon points="292,150 300,170 308,150" fill="#f08a3a" opacity="0.3"/>
+            <g id="s3-step4" opacity="0.25" transform="translate(220,180)">
+              <rect x="0" y="0" width="160" height="72" rx="8" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" fill="rgba(240,138,58,0.18)"/>
+              <text x="80" y="46" text-anchor="middle" class="label-warm" font-size="36" font-weight="600">Fe</text>
+            </g>
+            <text x="300" y="320" text-anchor="middle" class="label-soft" font-size="24" opacity="0.8">核聚变链 · 示意（无假温度）</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="clip scene" id="scene4" data-start="42" data-duration="16" data-track-index="0">
+        <svg viewBox="0 0 1400 780" xmlns="http://www.w3.org/2000/svg">
+          <g id="s4-star" transform="translate(700,390)">
+            <circle id="s4-body" r="90" class="stroke-line" stroke="#f08a3a" stroke-width="3" fill="rgba(240,138,58,0.25)"/>
+            <circle id="s4-core" r="35" fill="#ffe6c2"/>
+          </g>
+          <!-- explosion rays -->
+          <g id="s4-burst" opacity="0">
+            <path d="M700,390 L700,80" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+            <path d="M700,390 L980,180" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+            <path d="M700,390 L1100,390" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+            <path d="M700,390 L980,600" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+            <path d="M700,390 L700,700" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+            <path d="M700,390 L420,600" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+            <path d="M700,390 L300,390" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+            <path d="M700,390 L420,180" class="stroke-line" stroke="#f08a3a" stroke-width="2"/>
+          </g>
+          <!-- scattered element labels -->
+          <g id="s4-labels" opacity="0">
+            <g transform="translate(280,200)">
+              <circle r="36" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.1)"/>
+              <text text-anchor="middle" dy="8" class="label-cyan" font-size="28" font-weight="600">Fe</text>
+            </g>
+            <g transform="translate(1080,240)">
+              <circle r="36" class="stroke-line" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.12)"/>
+              <text text-anchor="middle" dy="8" class="label-warm" font-size="28" font-weight="600">Au</text>
+            </g>
+            <g transform="translate(220,520)">
+              <circle r="36" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.1)"/>
+              <text text-anchor="middle" dy="8" class="label-cyan" font-size="28" font-weight="600">U</text>
+            </g>
+            <g transform="translate(1120,520)">
+              <circle r="36" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.1)"/>
+              <text text-anchor="middle" dy="8" class="label-cyan" font-size="26" font-weight="600">Ca</text>
+            </g>
+            <g transform="translate(700,140)">
+              <circle r="32" class="stroke-line" stroke="#9bb6d4" stroke-width="2" fill="rgba(155,182,212,0.1)"/>
+              <text text-anchor="middle" dy="8" class="label-soft" font-size="24" font-weight="600">O</text>
+            </g>
+            <g transform="translate(560,640)">
+              <circle r="32" class="stroke-line" stroke="#9bb6d4" stroke-width="2" fill="rgba(155,182,212,0.1)"/>
+              <text text-anchor="middle" dy="8" class="label-soft" font-size="24" font-weight="600">Si</text>
+            </g>
+          </g>
+          <!-- nebula arcs -->
+          <g id="s4-nebula" opacity="0">
+            <path d="M200,300 C360,180 520,220 640,300" class="stroke-line" stroke="#5ec8e8" stroke-width="1.5" opacity="0.5"/>
+            <path d="M760,360 C900,280 1040,300 1200,380" class="stroke-line" stroke="#5ec8e8" stroke-width="1.5" opacity="0.45"/>
+            <path d="M260,520 C420,600 620,580 780,500" class="stroke-line" stroke="#f08a3a" stroke-width="1.5" opacity="0.4"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="clip scene" id="scene5" data-start="58" data-duration="17" data-track-index="0">
+        <svg viewBox="0 0 1400 780" xmlns="http://www.w3.org/2000/svg">
+          <text x="700" y="70" text-anchor="middle" class="label-cyan" font-size="32" font-weight="500">元素周期表 · 示意</text>
+          <g id="s5-grid" transform="translate(180,120)">
+            <!-- Will be populated / styled via cells below -->
+            <!-- Period 1 -->
+            <g class="pt-cell" id="cell-H" transform="translate(0,0)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.15)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">1</text>
+              <text x="35" y="48" text-anchor="middle" class="label-cyan" font-size="26" font-weight="600">H</text>
+            </g>
+            <g class="pt-cell" id="cell-He" transform="translate(910,0)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.15)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">2</text>
+              <text x="35" y="48" text-anchor="middle" class="label-cyan" font-size="24" font-weight="600">He</text>
+            </g>
+            <!-- Period 2 -->
+            <g class="pt-cell" id="cell-Li" transform="translate(0,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">3</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">Li</text>
+            </g>
+            <g class="pt-cell" id="cell-Be" transform="translate(90,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">4</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">Be</text>
+            </g>
+            <g class="pt-cell" id="cell-B" transform="translate(550,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">5</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">B</text>
+            </g>
+            <g class="pt-cell" id="cell-C" transform="translate(640,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.12)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">6</text>
+              <text x="35" y="48" text-anchor="middle" class="label-warm" font-size="24" font-weight="600">C</text>
+            </g>
+            <g class="pt-cell" id="cell-N" transform="translate(730,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">7</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">N</text>
+            </g>
+            <g class="pt-cell" id="cell-O" transform="translate(820,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.12)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">8</text>
+              <text x="35" y="48" text-anchor="middle" class="label-warm" font-size="24" font-weight="600">O</text>
+            </g>
+            <g class="pt-cell" id="cell-F" transform="translate(910,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">9</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">F</text>
+            </g>
+            <g class="pt-cell" id="cell-Ne" transform="translate(1000,90)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.12)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">10</text>
+              <text x="35" y="48" text-anchor="middle" class="label-cyan" font-size="22" font-weight="600">Ne</text>
+            </g>
+            <!-- Period 3 -->
+            <g class="pt-cell" id="cell-Na" transform="translate(0,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">11</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="22" font-weight="600">Na</text>
+            </g>
+            <g class="pt-cell" id="cell-Mg" transform="translate(90,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">12</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="22" font-weight="600">Mg</text>
+            </g>
+            <g class="pt-cell" id="cell-Al" transform="translate(550,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">13</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="22" font-weight="600">Al</text>
+            </g>
+            <g class="pt-cell" id="cell-Si" transform="translate(640,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">14</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="22" font-weight="600">Si</text>
+            </g>
+            <g class="pt-cell" id="cell-P" transform="translate(730,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">15</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">P</text>
+            </g>
+            <g class="pt-cell" id="cell-S" transform="translate(820,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">16</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">S</text>
+            </g>
+            <g class="pt-cell" id="cell-Cl" transform="translate(910,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.08)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">17</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="22" font-weight="600">Cl</text>
+            </g>
+            <g class="pt-cell" id="cell-Ar" transform="translate(1000,180)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.12)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">18</text>
+              <text x="35" y="48" text-anchor="middle" class="label-cyan" font-size="22" font-weight="600">Ar</text>
+            </g>
+            <!-- Period 4 hint row (Fe highlighted among placeholders) -->
+            <g class="pt-cell" id="cell-K" transform="translate(0,270)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">19</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="24" font-weight="600">K</text>
+            </g>
+            <g class="pt-cell" id="cell-Ca" transform="translate(90,270)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">20</text>
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="22" font-weight="600">Ca</text>
+            </g>
+            <g class="pt-cell" id="cell-Fe" transform="translate(460,270)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#f08a3a" stroke-width="2.5" fill="rgba(240,138,58,0.18)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">26</text>
+              <text x="35" y="48" text-anchor="middle" class="label-warm" font-size="24" font-weight="600">Fe</text>
+            </g>
+            <g class="pt-cell" id="cell-dots" transform="translate(280,270)" opacity="0">
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="28">···</text>
+            </g>
+            <g class="pt-cell" id="cell-dots2" transform="translate(640,270)" opacity="0">
+              <text x="35" y="48" text-anchor="middle" class="label-soft" font-size="28">···</text>
+            </g>
+            <g class="pt-cell" id="cell-Kr" transform="translate(1000,270)" opacity="0">
+              <rect width="70" height="70" rx="6" class="stroke-line" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.1)"/>
+              <text x="12" y="22" class="label-soft" font-size="14">36</text>
+              <text x="35" y="48" text-anchor="middle" class="label-cyan" font-size="22" font-weight="600">Kr</text>
+            </g>
+          </g>
+          <text id="s5-note" x="700" y="620" text-anchor="middle" class="label-soft" font-size="26" opacity="0">按质子数（原子序数）排列</text>
+        </svg>
+      </div>
+
+      <div class="clip scene" id="scene6" data-start="75" data-duration="15" data-track-index="0">
+        <svg viewBox="0 0 1400 780" xmlns="http://www.w3.org/2000/svg">
+          <text x="700" y="64" text-anchor="middle" class="label-cyan" font-size="30">周期（行）· 族（列）</text>
+          <!-- Mini table for highlight -->
+          <g id="s6-table" transform="translate(220,120)">
+            <!-- alkali column highlight box -->
+            <rect id="s6-alkali" x="-8" y="-8" width="86" height="350" rx="10"
+              class="stroke-line" stroke="#f08a3a" stroke-width="3" fill="rgba(240,138,58,0.08)" opacity="0"/>
+            <!-- noble gas column -->
+            <rect id="s6-noble" x="992" y="-8" width="86" height="350" rx="10"
+              class="stroke-line" stroke="#5ec8e8" stroke-width="3" fill="rgba(94,200,232,0.08)" opacity="0"/>
+            <!-- period row highlight -->
+            <rect id="s6-period" x="-8" y="82" width="1090" height="86" rx="10"
+              class="stroke-line" stroke="#9bb6d4" stroke-width="2.5" fill="rgba(155,182,212,0.06)" opacity="0"/>
+
+            <!-- simplified cells row1 -->
+            <g opacity="0.9">
+              <rect x="0" y="0" width="70" height="70" rx="6" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.12)"/>
+              <text x="35" y="44" text-anchor="middle" class="label-warm" font-size="24" font-weight="600">H</text>
+              <rect x="1000" y="0" width="70" height="70" rx="6" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.12)"/>
+              <text x="1035" y="44" text-anchor="middle" class="label-cyan" font-size="22" font-weight="600">He</text>
+            </g>
+            <g opacity="0.9">
+              <rect x="0" y="90" width="70" height="70" rx="6" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.12)"/>
+              <text x="35" y="134" text-anchor="middle" class="label-warm" font-size="22" font-weight="600">Li</text>
+              <rect x="90" y="90" width="70" height="70" rx="6" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="125" y="134" text-anchor="middle" class="label-soft" font-size="22">Be</text>
+              <rect x="640" y="90" width="70" height="70" rx="6" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="675" y="134" text-anchor="middle" class="label-soft" font-size="22">C</text>
+              <rect x="730" y="90" width="70" height="70" rx="6" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="765" y="134" text-anchor="middle" class="label-soft" font-size="22">N</text>
+              <rect x="820" y="90" width="70" height="70" rx="6" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="855" y="134" text-anchor="middle" class="label-soft" font-size="22">O</text>
+              <rect x="910" y="90" width="70" height="70" rx="6" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="945" y="134" text-anchor="middle" class="label-soft" font-size="22">F</text>
+              <rect x="1000" y="90" width="70" height="70" rx="6" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.12)"/>
+              <text x="1035" y="134" text-anchor="middle" class="label-cyan" font-size="22" font-weight="600">Ne</text>
+            </g>
+            <g opacity="0.9">
+              <rect x="0" y="180" width="70" height="70" rx="6" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.12)"/>
+              <text x="35" y="224" text-anchor="middle" class="label-warm" font-size="22" font-weight="600">Na</text>
+              <rect x="90" y="180" width="70" height="70" rx="6" stroke="#9bb6d4" stroke-width="1.5" fill="rgba(155,182,212,0.06)"/>
+              <text x="125" y="224" text-anchor="middle" class="label-soft" font-size="20">Mg</text>
+              <rect x="1000" y="180" width="70" height="70" rx="6" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.12)"/>
+              <text x="1035" y="224" text-anchor="middle" class="label-cyan" font-size="22" font-weight="600">Ar</text>
+            </g>
+            <g opacity="0.9">
+              <rect x="0" y="270" width="70" height="70" rx="6" stroke="#f08a3a" stroke-width="2" fill="rgba(240,138,58,0.12)"/>
+              <text x="35" y="314" text-anchor="middle" class="label-warm" font-size="24" font-weight="600">K</text>
+              <rect x="1000" y="270" width="70" height="70" rx="6" stroke="#5ec8e8" stroke-width="2" fill="rgba(94,200,232,0.12)"/>
+              <text x="1035" y="314" text-anchor="middle" class="label-cyan" font-size="22" font-weight="600">Kr</text>
+            </g>
+          </g>
+          <text id="s6-alkali-label" x="260" y="520" class="label-warm" font-size="28" opacity="0">碱金属列 · 性质相似</text>
+          <text id="s6-noble-label" x="980" y="520" text-anchor="middle" class="label-cyan" font-size="28" opacity="0">稀有气体列</text>
+          <text id="s6-period-label" x="700" y="580" text-anchor="middle" class="label-soft" font-size="26" opacity="0">横行 = 周期（壳层逐步填满）</text>
+        </svg>
+      </div>
+
+      <!-- Captions -->
+      <div id="captions" class="caption-wrap clip" data-start="0" data-duration="90" data-track-index="2">
+        <div class="caption" id="cap1" style="position:absolute">一切从极热、极密的起点开始
+——大爆炸</div>
+        <div class="caption" id="cap2" style="position:absolute">最初几分钟
+质子与中子聚成氢和氦</div>
+        <div class="caption" id="cap3" style="position:absolute">恒星内部像熔炉
+氢 → 氦 → 碳氧 → 铁</div>
+        <div class="caption" id="cap4" style="position:absolute">更重元素靠超新星
+洒进星际</div>
+        <div class="caption" id="cap5" style="position:absolute">按质子数排列
+成为元素周期表</div>
+        <div class="caption" id="cap6" style="position:absolute">横看周期、竖看族
+壳层填满，性质重现</div>
+      </div>
+
+      <div class="hint" id="hint1">示意，非比例</div>
+
+      <!-- End card -->
+      <div class="end-card" id="endcard">
+        <div class="big">元素 = 宇宙的字母</div>
+        <div class="sub">大爆炸 → 恒星 → 超新星 → 周期表</div>
+      </div>
+
+      <!-- TTS audio -->
+      <audio id="tts-s1" class="clip" src="assets/tts/s1.mp3" data-start="0.4" data-duration="3.84" data-track-index="1" data-fade-in="0.05" data-fade-out="0.1"></audio>
+      <audio id="tts-s2" class="clip" src="assets/tts/s2.mp3" data-start="10.3" data-duration="5.28" data-track-index="1" data-fade-in="0.05" data-fade-out="0.1"></audio>
+      <audio id="tts-s3" class="clip" src="assets/tts/s3.mp3" data-start="25.3" data-duration="5.904" data-track-index="1" data-fade-in="0.05" data-fade-out="0.1"></audio>
+      <audio id="tts-s4" class="clip" src="assets/tts/s4.mp3" data-start="42.3" data-duration="5.016" data-track-index="1" data-fade-in="0.05" data-fade-out="0.1"></audio>
+      <audio id="tts-s5" class="clip" src="assets/tts/s5.mp3" data-start="58.3" data-duration="6.504" data-track-index="1" data-fade-in="0.05" data-fade-out="0.1"></audio>
+      <audio id="tts-s6" class="clip" src="assets/tts/s6.mp3" data-start="75.3" data-duration="7.608" data-track-index="1" data-fade-in="0.05" data-fade-out="0.1"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- helpers ----
+      const showScene = (id, t, dur) => {
+        tl.to("#" + id, { opacity: 1, duration: 0.6, ease: "power2.out" }, t);
+        tl.to("#" + id, { opacity: 0, duration: 0.5, ease: "power2.in" }, t + dur - 0.5);
+      };
+      const showCap = (id, t, dur) => {
+        tl.fromTo("#" + id, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45 }, t + 0.2);
+        tl.to("#" + id, { autoAlpha: 0, duration: 0.35 }, t + dur - 0.45);
+      };
+
+      // Scene visibility windows
+      showScene("scene1", 0, 10);
+      showScene("scene2", 10, 15);
+      showScene("scene3", 25, 17);
+      showScene("scene4", 42, 16);
+      showScene("scene5", 58, 17);
+      // scene6 fades into endcard
+      tl.to("#scene6", { opacity: 1, duration: 0.55 }, 75);
+      tl.to("#scene6", { opacity: 0, duration: 0.6 }, 84.2);
+
+      showCap("cap1", 0, 10);
+      showCap("cap2", 10, 15);
+      showCap("cap3", 25, 17);
+      showCap("cap4", 42, 16);
+      showCap("cap5", 58, 17);
+      showCap("cap6", 75, 9);
+
+      // ---- Scene 1: Big Bang ----
+      tl.fromTo("#s1-core", { attr: { r: 2 }, opacity: 0 }, { attr: { r: 90 }, opacity: 1, duration: 2.2, ease: "power2.out" }, 0.3);
+      tl.fromTo("#s1-ring", { attr: { r: 8 }, opacity: 0.9 }, { attr: { r: 260 }, opacity: 0, duration: 3.5, ease: "power1.out" }, 0.8);
+      tl.to("#s1-foam", { opacity: 1, duration: 1.8 }, 2.2);
+      tl.fromTo("#s1-foam", { scale: 0.55, transformOrigin: "700px 390px" }, { scale: 1.05, duration: 5, ease: "power1.out" }, 2.2);
+      tl.to("#hint1", { opacity: 1, duration: 0.5 }, 1.5);
+      tl.to("#hint1", { opacity: 0, duration: 0.4 }, 9.2);
+
+      // ---- Scene 2: H / He ----
+      tl.fromTo("#s2-parts", { opacity: 1 }, { opacity: 0, duration: 1.2 }, 14);
+      tl.to("#s2-h", { opacity: 1, duration: 0.8 }, 14.2);
+      tl.to("#s2-he", { opacity: 1, duration: 0.8 }, 15.0);
+      tl.to("#s2-note", { opacity: 1, duration: 0.6 }, 15.5);
+      tl.fromTo("#s2-p1", { x: -40 }, { x: 40, duration: 4, ease: "sine.inOut" }, 10.2);
+      tl.fromTo("#s2-p2", { x: 30 }, { x: -20, duration: 4, ease: "sine.inOut" }, 10.2);
+      tl.fromTo("#s2-p3", { y: -20 }, { y: 30, duration: 4, ease: "sine.inOut" }, 10.4);
+      tl.fromTo("#s2-p4", { y: 25 }, { y: -15, duration: 4, ease: "sine.inOut" }, 10.4);
+
+      // ---- Scene 3: stellar furnace ----
+      tl.fromTo("#s3-star", { scale: 0.85, transformOrigin: "420px 400px", opacity: 0.6 }, { scale: 1, opacity: 1, duration: 1.2 }, 25.2);
+      tl.to("#s3-step1", { opacity: 1, duration: 0.4 }, 27);
+      // arrows via sibling polygons - set individually
+      tl.to("#s3-a1", { opacity: 1, duration: 0.25 }, 28);
+      tl.set("#s3-chain polygon", { opacity: 1 }, 28.1);
+      tl.to("#s3-step2", { opacity: 1, duration: 0.4 }, 29);
+      tl.to("#s3-a2", { opacity: 1, duration: 0.25 }, 30.2);
+      tl.to("#s3-step3", { opacity: 1, duration: 0.4 }, 31.2);
+      tl.to("#s3-a3", { opacity: 1, duration: 0.25 }, 32.5);
+      tl.to("#s3-step4", { opacity: 1, duration: 0.5 }, 33.5);
+      // pulse core
+      tl.to("#s3-star circle:nth-child(4)", { scale: 1.15, transformOrigin: "50% 50%", duration: 0.8, yoyo: true, repeat: 4, ease: "sine.inOut" }, 27);
+
+      // ---- Scene 4: supernova ----
+      tl.fromTo("#s4-body", { attr: { r: 90 } }, { attr: { r: 40 }, duration: 2.5, ease: "power2.in" }, 42.5);
+      tl.fromTo("#s4-core", { attr: { r: 35 } }, { attr: { r: 12 }, duration: 2.5, ease: "power2.in" }, 42.5);
+      tl.to("#s4-burst", { opacity: 1, duration: 0.25 }, 45.2);
+      tl.fromTo("#s4-burst", { scale: 0.3, transformOrigin: "700px 390px" }, { scale: 1.4, duration: 1.8, ease: "power2.out" }, 45.2);
+      tl.to("#s4-star", { opacity: 0, duration: 0.4 }, 45.4);
+      tl.to("#s4-burst", { opacity: 0, duration: 1.2 }, 46.5);
+      tl.to("#s4-nebula", { opacity: 1, duration: 1.2 }, 46.2);
+      tl.to("#s4-labels", { opacity: 1, duration: 1.0 }, 47.0);
+      tl.fromTo("#s4-labels", { scale: 0.7, transformOrigin: "700px 390px" }, { scale: 1, duration: 1.4, ease: "power2.out" }, 47.0);
+
+      // ---- Scene 5: settle into table ----
+      const cells = ["#cell-H","#cell-He","#cell-Li","#cell-Be","#cell-B","#cell-C","#cell-N","#cell-O","#cell-F","#cell-Ne",
+        "#cell-Na","#cell-Mg","#cell-Al","#cell-Si","#cell-P","#cell-S","#cell-Cl","#cell-Ar",
+        "#cell-K","#cell-Ca","#cell-dots","#cell-Fe","#cell-dots2","#cell-Kr"];
+      cells.forEach((sel, i) => {
+        tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 59 + i * 0.22);
+      });
+      tl.to("#s5-note", { opacity: 1, duration: 0.6 }, 66.5);
+      // emphasize H/He then C/O/Fe
+      tl.to(["#cell-H rect","#cell-He rect"], { attr: { "stroke-width": 3.5 }, duration: 0.3 }, 64.5);
+      tl.to(["#cell-C rect","#cell-O rect","#cell-Fe rect"], { attr: { "stroke-width": 3.5 }, duration: 0.3 }, 68);
+
+      // ---- Scene 6: period / group ----
+      tl.to("#s6-period", { opacity: 1, duration: 0.5 }, 76.5);
+      tl.to("#s6-period-label", { opacity: 1, duration: 0.45 }, 76.8);
+      tl.to("#s6-period", { opacity: 0.25, duration: 0.4 }, 79.2);
+      tl.to("#s6-period-label", { opacity: 0.35, duration: 0.3 }, 79.2);
+      tl.to("#s6-alkali", { opacity: 1, duration: 0.5 }, 79.5);
+      tl.to("#s6-alkali-label", { opacity: 1, duration: 0.45 }, 79.8);
+      tl.to("#s6-noble", { opacity: 1, duration: 0.5 }, 81.2);
+      tl.to("#s6-noble-label", { opacity: 1, duration: 0.45 }, 81.5);
+
+      // End card
+      tl.to("#endcard", { opacity: 1, duration: 0.8 }, 84.5);
+      tl.fromTo("#endcard .big", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 84.8);
+      tl.fromTo("#endcard .sub", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, 85.5);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

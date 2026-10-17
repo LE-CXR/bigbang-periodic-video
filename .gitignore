@@ -1,0 +1,12 @@
+node_modules/
+.venv/
+chrome-headless-shell/
+.hyperframes/
+renders/*.mp4
+renders/work-*/
+renders/render*.log
+renders/snapshots/
+assets/fonts/NotoSansCJKsc-Regular.otf
+assets/fonts/used.txt
+*.log
+.DS_Store

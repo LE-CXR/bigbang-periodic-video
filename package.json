@@ -1,0 +1,15 @@
+{
+  "name": "bigbang-periodic",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.167 preview",
+    "check": "npx --yes hyperframes@0.8.167 check",
+    "render": "npx --yes hyperframes@0.8.167 render -o renders/bigbang-periodic.mp4",
+    "publish": "npx --yes hyperframes@0.8.167 publish"
+  },
+  "dependencies": {
+    "hyperframes": "0.8.167"
+  }
+}
