@@ -77,3 +77,7 @@ prompts/                # 见上级 opus55-video-study/prompts/
 - HyperFrames lint 对大单文件有 nested-structure 警告；v1 保持单文件便于 agent 迭代。
 - 系统 Chrome 无 `beginFrame`；本项目用 `chrome-headless-shell` + screenshot 路径。
 - 成功标准：可播 MP4、中文字幕可读、六场节拍可见。
+
+## GitHub
+
+https://github.com/LE-CXR/bigbang-periodic-video
